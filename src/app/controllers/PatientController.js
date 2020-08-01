@@ -1,4 +1,5 @@
 import Patient from '../models/Patient';
+import Service from '../models/Service';
 
 class PatientController {
   async store(req, res) {
@@ -18,7 +19,9 @@ class PatientController {
       ...(avatar_id ? { avatar_id } : {}),
     });
 
-    return res.json({ patient });
+    const service = await Service.create({ patient_id: patient.id });
+
+    return res.json({ patient, service });
   }
 }
 

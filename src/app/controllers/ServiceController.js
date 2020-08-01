@@ -1,6 +1,4 @@
 import Service from '../models/Service';
-import Problem from '../models/Problem';
-import Procedure from '../models/Procedure';
 
 class ServiceController {
   async index(req, res) {
@@ -24,20 +22,18 @@ class ServiceController {
     return res.json({ service });
   }
 
-  async store(req, res) {
-    const { patient_id, problems_id, procedures_id } = req.body;
+  async update(req, res) {
+    const { service_id, problems_id = [], procedures_id = [] } = req.body;
 
-    const service = await Service.create({ patient_id });
+    const service = await Service.findByPk(service_id);
 
-    problems_id.map(async id => {
-      const problem = await Problem.findByPk(id);
-      await service.addProblem(problem);
-    });
+    if (problems_id.length) {
+      await service.addProblems(problems_id);
+    }
 
-    procedures_id.map(async id => {
-      const procedure = await Procedure.findByPk(id);
-      await service.addProcedure(procedure);
-    });
+    if (procedures_id.length) {
+      await service.addProcedures(procedures_id);
+    }
 
     return res.json({ service });
   }
