@@ -1,4 +1,5 @@
 import Patient from '../models/Patient';
+import File from '../models/File';
 import Service from '../models/Service';
 
 class PatientController {
@@ -8,7 +9,7 @@ class PatientController {
     const isRegistered = await Patient.findOne({ where: { email } });
 
     if (isRegistered) {
-      return res.status(400).json({ error: 'Email já cadastrado' });
+      return res.status(400).json({ message: 'Email já cadastrado' });
     }
 
     const patient = await Patient.create({
@@ -19,9 +20,21 @@ class PatientController {
       ...(avatar_id ? { avatar_id } : {}),
     });
 
+    const { url } = await File.findByPk(avatar_id);
+
     const service = await Service.create({ patient_id: patient.id });
 
-    return res.json({ patient, service });
+    return res.json({
+      patient: {
+        id: patient.id,
+        name,
+        email,
+        phone,
+        birth,
+        avatar_url: url,
+      },
+      service,
+    });
   }
 }
 
