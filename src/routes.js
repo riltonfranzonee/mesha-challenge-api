@@ -21,6 +21,7 @@ routes.post('/problems', ProblemController.store);
 
 routes.post('/procedures', ProcedureController.store);
 
+routes.get('/services/:id', ServiceController.index);
 routes.post('/services', ServiceController.store);
 
 export default routes;

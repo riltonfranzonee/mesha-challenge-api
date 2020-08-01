@@ -3,6 +3,27 @@ import Problem from '../models/Problem';
 import Procedure from '../models/Procedure';
 
 class ServiceController {
+  async index(req, res) {
+    const { id } = req.params;
+
+    const service = await Service.findByPk(id, {
+      include: [
+        {
+          association: 'Procedures',
+          attributes: ['id', 'name', 'name', 'price', 'duration'],
+          through: { attributes: [] },
+        },
+        {
+          association: 'Problems',
+          attributes: ['id', 'name'],
+          through: { attributes: [] },
+        },
+      ],
+    });
+
+    return res.json({ service });
+  }
+
   async store(req, res) {
     const { patient_id, problems_id, procedures_id } = req.body;
 
