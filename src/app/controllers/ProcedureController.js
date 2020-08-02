@@ -7,16 +7,22 @@ class ProcedureController {
     const procedure = await Procedure.findOne({ where: { name } });
 
     if (procedure) {
-      return res.json({ procedure_id: procedure.id });
+      procedure.update({ price, duration });
+      return res.json({
+        id: procedure.id,
+        name,
+        price,
+        duration,
+      });
     }
 
-    const { id: procedure_id } = await Procedure.create({
+    const newProcedure = await Procedure.create({
       name,
       price,
       duration,
     });
 
-    return res.json({ procedure_id });
+    return res.json(newProcedure);
   }
 }
 

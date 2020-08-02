@@ -7,14 +7,14 @@ class ProblemController {
     const problem = await Problem.findOne({ where: { name } });
 
     if (problem) {
-      return res.json({ problem_id: problem.id });
+      return res.json(problem);
     }
 
-    const { id: problem_id } = await Problem.create({
+    const newProblem = await Problem.create({
       name,
     });
 
-    return res.json({ problem_id });
+    return res.json(newProblem);
   }
 }
 
