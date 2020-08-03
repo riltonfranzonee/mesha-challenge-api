@@ -17,6 +17,9 @@ Com o container devidamente inicializado, vamos clonar o repositório e rodar as
 # Clone o repositório
 $ git clone https://github.com/riltonfranzonee/mesha-challenge-api
 
+# Mude para a branch da versão final
+$ git checkout final-version
+
 # Entre na pasta
 $ cd mesha-challenge-api
 
