@@ -20,7 +20,12 @@ class PatientController {
       ...(avatar_id ? { avatar_id } : {}),
     });
 
-    const { url } = await File.findByPk(avatar_id);
+    let url;
+
+    if (avatar_id) {
+      const file = await File.findByPk(avatar_id);
+      url = file.url;
+    }
 
     const service = await Service.create({ patient_id: patient.id });
 
